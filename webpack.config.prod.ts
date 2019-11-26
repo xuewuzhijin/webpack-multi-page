@@ -36,7 +36,7 @@ module.exports = {
   mode: "production",
 
   output: {
-    filename: "js/[id].js",
+    filename: "js/[name].js",
   },
 
   module: {
@@ -62,14 +62,12 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "css/[name]-[hash:4].css"
+      filename: "css/[name].css"
     }),
     new CompressionPlugin({
       algorithm: "gzip",
       cache: true,
       test: /\.css|js|png|svg|jpg|jpeg|gif$/,
-      // filename: info => `${info.path}.gz`,
-      // filename(info) { return `${info.path}.gz${info.query}` },
       filename: "[path].gz",
       exclude: /node_modules/,
       // 资源大于 5120(5KB) byte 时才进行 gz 压缩
@@ -78,9 +76,6 @@ module.exports = {
   ].concat(plugins),
 
   optimization: {
-    // runtimeChunk: {
-    //   name: entrypoint => `runtime~${entrypoint.name}`
-    // },
     splitChunks: {
       name: true,
       chunks: "all",

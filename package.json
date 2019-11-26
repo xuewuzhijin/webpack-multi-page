@@ -1,44 +1,45 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./views/home/index.ts",
   "scripts": {
-    "serve": "webpack-dev-server --env.development --hot",
-    "build": "rimraf dist && webpack --env.production"
+    "serve": "webpack-dev-server --env.development",
+    "build": "rimraf dist && webpack --env.production",
+    "checkType": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
     "@types/compression-webpack-plugin": "^2.0.1",
-    "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/glob": "^7.1.1",
     "@types/happypack": "^5.0.0",
     "@types/html-webpack-plugin": "^3.2.1",
-    "@types/jquery": "^3.3.31",
     "@types/mini-css-extract-plugin": "^0.8.0",
-    "@types/node": "^12.12.12",
+    "@types/node": "^12.12.14",
     "@types/webpack": "^4.41.0",
     "@types/webpack-merge": "^4.1.5",
     "autoprefixer": "^9.7.2",
+    "babel-loader": "^8.0.6",
     "compression-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.5",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
-    "fork-ts-checker-webpack-plugin": "^3.1.0",
     "glob": "^7.1.6",
     "happypack": "^5.0.1",
     "html-webpack-plugin": "^4.0.0-beta.11",
-    "jquery": "^3.4.1",
     "mini-css-extract-plugin": "^0.8.0",
     "postcss": "^7.0.23",
     "postcss-loader": "^3.0.0",
     "rimraf": "^3.0.0",
-    "style-loader": "^1.0.0",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
-    "ts-loader": "^6.2.1",
     "ts-node": "^8.5.2",
     "tslib": "^1.10.0",
     "tslint": "^5.20.1",
@@ -52,5 +53,13 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2"
+  },
+  "browserslist": [
+    "last 10 version",
+    "> 5%",
+    "IE 8"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.7.4"
   }
 }

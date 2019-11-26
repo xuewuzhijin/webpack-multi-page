@@ -2,7 +2,6 @@ import path from "path"
 import webpack, { Configuration } from "webpack"
 import Happypack from "happypack"
 import { VueLoaderPlugin } from "vue-loader"
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin"
 import WebpackMerge from "webpack-merge"
 import Glob from "glob"
 
@@ -18,7 +17,8 @@ const webpackConfig: Configuration = {
   entry: entrys,
 
   output: {
-    path: path.resolve( __dirname, "dist" )
+    path: path.resolve( __dirname, "dist" ),
+    chunkFilename: "js/lib/[id].js"
   },
 
   module: {
@@ -31,7 +31,8 @@ const webpackConfig: Configuration = {
       {
         test: /.[jt]s$/,
         loader: "happypack/loader?id=ts",
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        include: /views/
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
@@ -90,40 +91,30 @@ const webpackConfig: Configuration = {
       threads: 6,
       loaders: [
         {
-          loader: "ts-loader",
+          loader: "babel-loader",
           cache: true,
           options: {
-            // 关闭类型检查，即只进行转译
-            transpileOnly: true,
-            // 开启 happypack 模式
-            happyPackMode: true,
-            appendTsSuffixTo: [/\.vue$/]
+            cacheDirectory: true
           }
         }
       ]
-    }),
-    // 因使用了 happypack 插件，所以另起一个线程来输出 typescript 编译出现的错误
-    new ForkTsCheckerWebpackPlugin({
-      vue: true,
-      async: false,
-      useTypescriptIncrementalApi: true,
-      memoryLimit: 4096,
-      // 只报告在匹配当前文件下的编译错误信息
-      reportFiles: ["views/**/*.ts"]
     })
   ],
 
   cache: true,
 
-  watchOptions: {
-    aggregateTimeout: 500,
-    ignored: /node_modules/
-  },
-
   stats: {
     warningsFilter: /Entrypoint/,
-    children: false
-  }
+    children: false,
+    colors: true,
+    errors: true,
+    errorDetails: true,
+    hash: false,
+    depth: false,
+    cachedAssets: false
+  },
+
+  
 }
 
 interface WebpackModuleMode {

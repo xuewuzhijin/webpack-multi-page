@@ -23,6 +23,12 @@ module.exports = {
 
   devtool: "#@eval-source-map",
 
+  devServer: {
+    hot: true,
+    compress: true,
+    contentBase: path.join(__dirname, "dist")
+  },
+
   output: {
     filename: "js/[name].js",
   },
@@ -53,5 +59,17 @@ module.exports = {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-  ].concat(plugins)
-} as Configuration
+  ].concat(plugins),
+
+  watch: true,
+
+  watchOptions: {
+    aggregateTimeout: 500,
+    ignored: /node_modules/
+  },
+  
+} as WebpackConfig
+
+interface WebpackConfig extends Configuration {
+  devServer: any
+}
