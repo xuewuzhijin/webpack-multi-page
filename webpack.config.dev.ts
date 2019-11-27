@@ -21,7 +21,7 @@ Glob.sync("./views/**/index.ts").forEach( item => {
 module.exports = {
   mode: "development",
 
-  devtool: "#@eval-source-map",
+  devtool: "eval-source-map",
 
   devServer: {
     hot: true,
