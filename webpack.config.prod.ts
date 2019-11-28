@@ -7,37 +7,45 @@ import Glob from "glob"
 
 // 配置多入口插件
 const plugins: webpack.Plugin[] = [];
-const reg = /.*\/(.+)\/(.+)\.(\w+)$/;
-Glob.sync("./views/**/index.ts").forEach( item => {
-  const matchs = item.match(reg) as string[],
-        name = matchs[1];
-  plugins.push(
-    new HtmlWebpackPlugin({
+Glob.sync("./views/**/!(~|-|_)*/index.[jt]s").forEach( item => {
+  const splits = item.split("/"),
+        name = /.*\.[jt]s$/.test(splits[3]) ? splits[2] : item.replace(new RegExp(`(./views/${splits[2]}/)|(\.ts)`, "g"), "");
+  plugins.push(new HtmlWebpackPlugin({
       filename: name + ".html",
-      template: item.replace(/(\.ts)/, ".html"),
+      template: item.replace(/(\.[jt]s)/, ".html"),
+      // 默认把 js 注入到 body 标签结束处
       inject: true,
       minify: {
+        // 移除注释
         removeComments: true,
+        // 移除空格空隙
         collapseWhitespace: true,
-        removeRedundantAttributes: true,
+        // 删除多余的属性
+        removeRedundantAttributes: true, 
+        // 使用短的文档类型
         useShortDoctype: true,
+        // 是否删除空属性
         removeEmptyAttributes: true,
+        // 删除script的类型属性
+        removeScriptTypeAttributes: true,
+        // 删除style的类型属性
         removeStyleLinkTypeAttributes: true,
+        // 保留自闭合标签末尾的斜杠
         keepClosingSlash: true,
+        // 压缩内联js （使用uglify-js进行的压缩）
         minifyJS: true,
+        // 压缩内联css
         minifyCSS: true,
+        // 缩小各种属性中的url
         minifyURLs: true
       },
-      chunks: [ name ]
-    }))
+      // 根据不同的块，注入与之相关（html）的依赖模块
+      chunks: [ item ]
+  }))
 })
 
 module.exports = {
   mode: "production",
-
-  output: {
-    filename: "js/[name].js",
-  },
 
   module: {
     rules: [
@@ -61,9 +69,11 @@ module.exports = {
   },
 
   plugins: [
+    // 抽离 css 为一个 单独的文件
     new MiniCssExtractPlugin({
-      filename: "css/[name].css"
+      filename: "css/[id].css"
     }),
+    // gzip 压缩
     new CompressionPlugin({
       algorithm: "gzip",
       cache: true,
@@ -77,7 +87,6 @@ module.exports = {
 
   optimization: {
     splitChunks: {
-      name: true,
       chunks: "all",
       // 压缩前最小大小
       minSize: 10000,
