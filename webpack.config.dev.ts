@@ -1,18 +1,17 @@
 import path from "path"
 import webpack, { Configuration } from "webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
-import Glob from "glob"
+/* 返回所需的入口文件 */
+import Entrys from "./deploy/_util";
 
 // 配置多入口插件
 const plugins: webpack.Plugin[] = [];
-Glob.sync("./views/**/!(~|-|_)*/index.[jt]s").forEach( item => {
-  const splits = item.split("/"),
-  name = /.*\.[jt]s$/.test(splits[3]) ? splits[2] : item.replace(new RegExp(`(./views/${splits[2]}/)|(\.ts)`, "g"), "");
+Entrys( (path, name, templatePath) => {
   plugins.push(new HtmlWebpackPlugin({
-      filename: name + ".html",
-      template: item.replace(/(\.[jt]s)/, ".html"),
+      filename: name,
+      template: templatePath,
       inject: true,
-      chunks: [ item ]
+      chunks: [ path ]
     }))
 })
 
@@ -35,13 +34,23 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ["vue-style-loader", "css-loader", "postcss-loader"]
+        use: [
+          "style-loader",
+          {
+            loader: 'css-loader',
+            options: { modules: true }
+          },
+          "postcss-loader"
+        ]
       },
       {
         test: /\.styl(us)?$/,
         use: [
-          "vue-style-loader",
-          "css-loader",
+          "style-loader",
+          {
+            loader: 'css-loader',
+            options: { modules: true }
+          },
           "postcss-loader",
           {
             loader: "stylus-loader",

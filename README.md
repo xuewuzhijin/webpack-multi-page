@@ -41,41 +41,47 @@
 根据我的思路，架构就这么配置，应该符合大众要求，如果不满意，你提出来啊！！！我会视情况而定的。
 </details>
 
+## 项目目录结构
+
+<details>
+<summary>包含输出目录</summary>
+
 ```Js
-
-/**
- * 无后缀名 为目录
- * 有后缀名 为文件
- * dist   项目输出路径
- * public 公共目录
- * views 视图层
- */
-
-
 ./
-├── assets
-│   ├── fonts
-│   │   └── 0231ceb9c67f77172f441b2.woff
-│   └── images
-│       ├── 5a25b6fd30231ceb9c67f77172f441b2.jpg
-│       └── 5a25b6fd30231ceb9c67f77172f441b2.jpg.gz
-├── css
-│   └── 2.css
-├── js
-│   ├── 0.js
-│   ├── 1.js
-│   ├── 2.js
-│   ├── 3.js
-│   └── 4.js
-├── index.html
-├── home.html
-├── about.html
-└── list
-    ├── detail
-    │   └── index.html
-    └── index.html
+├── deploy
+│   ├── _util
+│   ├── config.ts
+│   └── template
+│       └── index.html
+├── dist
+│   ├── assets
+│   │   └── images
+│   │       ├── 5a25b6fd30231.jpg
+│   │       └── 5a25b6fd30231.jpg.gz
+│   ├── css
+│   │   └── 3.css
+│   ├── js
+│   │   ├── 0.js
+│   │   ├── 1.js
+│   │   ├── 2.js
+│   │   ├── 3.js
+│   │   ├── 4.js
+│   │   └── 5.js
+│   ├── index.html
+│   ├── about
+│   │   └── index.html
+│   ├── contact
+│   │   └── index.html
+│   └── news
+│       ├── index.html
+│       └── list
+│           ├── detail
+│           │   └── index.html
+│           └── index.html
 ├── public
 │   ├── assets
+│   │   └── images
+│   │       └── img.jpg
 │   ├── config
 │   ├── styles
 │   │   ├── common.styl
@@ -85,27 +91,27 @@
 │   └── utils
 │       └── test.ts
 ├── views
+│   ├── -a
+│   │   └── index.ts
+│   ├── _a
+│   │   └── index.js
 │   ├── about
 │   │   ├── index.html
 │   │   └── index.ts
-│   ├── home
+│   ├── contact
 │   │   ├── index.html
 │   │   └── index.ts
-│   ├── index
-│   │   ├── index.html
-│   │   ├── index.js
-│   │   └── list
-│   │       ├── detail
-│   │       │   ├── index.html
-│   │       │   └── index.ts
-│   │       ├── index.html
-│   │       └── index.ts
-│   ├── -a
-│   │   └── index.js
-│   ├── _a
-│   │   └── index.js
-│   └── ~a
-│       └── index.ts
+│   ├── index.html
+│   ├── index.ts
+│   └── news
+│       ├── index.html
+│       ├── index.js
+│       └── list
+│           ├── detail
+│           │   ├── index.html
+│           │   └── index.ts
+│           ├── index.html
+│           └── index.ts
 ├── README.md
 ├── package.json
 ├── tsconfig.json
@@ -114,17 +120,21 @@
 ├── webpack.config.ts
 ├── webpack.config.dev.ts
 └── webpack.config.prod.ts
-
 ```
+
+</details>
+
+---
 
 路径 | 别名 | 说明
 -|-|-
+/  |  @  |  项目根目录
 public/assets  |  @assets  |  静态资源
 public/config  |  @config  |  项目配置文件存放处
 public/styles  |  @styles  |  全局样式/变量
 public/types   |  @types  |  项目类型定义
 public/utils   |  @utils  |  项目工具包依赖
-views/*   |  @views  |  该目录下，每个文件夹对应一个页面，每个页面下应有一个 `index.html` & `index.[jt]s` 文件，打包的名称由该目录名决定
+views/*   |  @views  |  该目录下，只要有包含定义过的`[customeName].[jt]s` 文件就是一个入口文件，这个文件名相对应的有一个同名的 `html` 文件，如果该 `html` 文件不存在，则直接使用默认的模板文件，[配置文件](#高度自定义，开箱即用)
 
 例如：
 
@@ -134,9 +144,20 @@ import XXX from "@assets/xxx...";
 
 ```
 
-views 下以 [ - _ ~ ] 开头的文件夹不会被用作入口文件，一般用来作为局部配置文件目录，如 types/components/config...
-
-view 下面的文件和文件夹都可以删除，**但目录下只要有 `index.js` 或者 `index.ts` 文件必须包含一个 `index.html` 文件**
+* `deploy`  项目部署目录
+  * `_util`     该项目的工具库，适合高级玩家配置
+  * `template`  模板库
+  * `config.ts` 用户配置文件
+* `dist`  打包输出路径
+* `public` 公共路径
+  * `assets` 静态资源
+    * `images`
+    * `fonts`
+  * `config`  项目配置文件
+  * `styles`  全局样式/变量
+  * `types` 类型定义
+  * `utils` 项目工具库
+* `views` 视图层
 
 ---
 
@@ -150,7 +171,7 @@ view 下面的文件和文件夹都可以删除，**但目录下只要有 `index
 
 加入了 css 的样式兼容，开启 grid 布局兼容
 
-* vue
+* vue/react/i18n...
 
 项目加入了 `vue` 文件处理，但不参与打包，也就是，你可以在项目中使用 vue 这个插件，但在打包时，vue 将不会出现在打包文件中，如果需要使用请根据情况在每个 views 下的 .html 文件中加入 vue 的 cdn
 
@@ -217,6 +238,37 @@ function When( value ) {
 * 待持续优化...
 
 如果你有好的插件介绍、或者对该项目有建议、或想参与到开发中，欢迎到 `issue` 中提出。如果对该项目感兴趣鼓励 `watch` 欢迎 `star`
+
+## 高度自定义，开箱即用
+
+打开部署目录下的配置文件，根据自身需求开启插件，无需去配置额外的插件及属性，也不需要在项目中删删改改，`true` 与 `false` 让你轻松搞定[前往文件](./deploy/config.ts)
+
+```Js
+export default {
+  /** 入口配置文件 */
+  entry: {
+    /** 忽略前缀文件夹不作为入口文件 */
+    ignorePrefix: [ "~", "-", "_" ],
+    /** 哪些文件名称作为入口 */
+    name: [ "index", "entry" ]
+  },
+
+  templatePath: "./deploy/template/index.html",
+
+  /** 是否开启该插件 */
+  plugin: {
+    vue: true,
+
+    vueI18n: false,
+
+    vuePug: false,
+
+    eslint: false,
+
+    react: false,
+  }
+}
+```
 
 ## 使用步骤
 

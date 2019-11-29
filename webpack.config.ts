@@ -1,22 +1,19 @@
-/* node 环境下用来解决路径问题 */
+/** node 环境下用来解决路径问题 */
 import path from "path"
-/* 引用 webpack，会用到 webpack 的一些内置插件，后面一个是 类型接口 */
+/** 引用 webpack，会用到 webpack 的一些内置插件，后面一个是 类型接口 */
 import webpack, { Configuration } from "webpack"
-/* 用来启用多线程打包 */
+/** 用来启用多线程打包 */
 import Happypack from "happypack"
-/* 默认使用 Vue，如果不需要可以删掉，并清除 webpack 配置文件中的插件清单中的该函数以及模块中的规则 */
-import { VueLoaderPlugin } from "vue-loader"
-/* 用来合并 webpack 配置文件 */
+/** 用来合并 webpack 配置文件 */
 import WebpackMerge from "webpack-merge"
-/* 用来递归查找所需的入口文件 */
-import Glob from "glob"
+/** 返回所需的入口文件 */
+import Entrys from "./deploy/_util";
+/** 返回使用的插件库 */
+import WebpackPlugin from "./deploy/_util/use-plugins";
 
-/**
- * 配置多入口
- * 寻找 [ views ] 目录下 非[ ~ - _ ] 开头的文件夹作为入口文件
- * */
+/** 配置多入口 */
 let entrys: webpack.Entry = {};
-Glob.sync("./views/**/!(~|-|_)*/index.[jt]s").forEach( item => entrys[item] = item )
+Entrys( item => entrys[item] = item );
 
 const webpackConfig: Configuration = {
   entry: entrys,
@@ -30,13 +27,8 @@ const webpackConfig: Configuration = {
   module: {
     rules: [
       {
-        test: /.vue$/,
-        loader: "vue-loader",
-        exclude: /node_modules/
-      },
-      {
         test: /.[jt]s$/,
-        /* 使用多线程打包，ID 指向 ts */
+        /** 使用多线程打包，ID 指向 ts */
         loader: "happypack/loader?id=ts",
         exclude: /node_modules/,
         include: /views/
@@ -75,6 +67,7 @@ const webpackConfig: Configuration = {
 
     /** 定义项目全局模块别名： 该目录要对应 tsconfig 配置文件，也可以不配置，但编译项目会报错，同时也是为了编辑器能够认识 */
     alias: {
+      "@": path.resolve( __dirname, "./" ),
       "@views": path.resolve( __dirname, "views" ),
       "@public": path.resolve( __dirname, "public" ),
       "@utils": path.resolve( __dirname, "public/utils" ),
@@ -95,8 +88,6 @@ const webpackConfig: Configuration = {
   plugins: [
     // 编译的时候展示进度，效果等同于 --progress
     new webpack.ProgressPlugin(),
-    // 编译 Vue 的一个插件，不用可以去掉它
-    new VueLoaderPlugin(),
     // 给 JS/TS 启用多线程打包
     new Happypack({
       id: "ts",
@@ -140,6 +131,7 @@ interface WebpackModuleMode {
 module.exports = ( mode: WebpackModuleMode ) => {
   // 返回合并后的 webpack 配置文件
   return WebpackMerge(
+    WebpackPlugin,
     webpackConfig,
     mode.production ? require("./webpack.config.prod") : require("./webpack.config.dev")
   )
