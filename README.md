@@ -1,5 +1,21 @@
 # 使用 TypeScript 自定义 Webpack 多页应用
 
+## 更新日志
+
+
+<details>
+
+以前没想到这问题，直到想起了如果用户使用该库导致后面不知如何升级，所以加入更新日志，只是前期的配置没办法了，版本从 `1.1.0` 开始。
+
+### 1.1.0
+
+* 增加编辑器对模块名的支持 @ -> Project root path
+* react 编译插件配置转移到 babel
+* 移除重复配置
+
+
+</details>
+
 <details>
 
 <summary>前言</summary>
@@ -124,6 +140,8 @@
 
 </details>
 
+## 模块别名
+
 ---
 
 路径 | 别名 | 说明
@@ -134,7 +152,7 @@ public/config  |  @config  |  项目配置文件存放处
 public/styles  |  @styles  |  全局样式/变量
 public/types   |  @types  |  项目类型定义
 public/utils   |  @utils  |  项目工具包依赖
-views/*   |  @views  |  该目录下，只要有包含定义过的`[customeName].[jt]s` 文件就是一个入口文件，这个文件名相对应的有一个同名的 `html` 文件，如果该 `html` 文件不存在，则直接使用默认的模板文件，[配置文件](#高度自定义，开箱即用)
+views/*   |  @views  |  该目录下，只要有包含定义过的`[customeName].[jt]s` 文件就是一个入口文件，这个文件名相对应的有一个同名的 `html` 文件，如果该 `html` 文件不存在，则直接使用默认的模板文件，[配置文件](#开箱即用)
 
 例如：
 
@@ -239,7 +257,7 @@ function When( value ) {
 
 如果你有好的插件介绍、或者对该项目有建议、或想参与到开发中，欢迎到 `issue` 中提出。如果对该项目感兴趣鼓励 `watch` 欢迎 `star`
 
-## 高度自定义，开箱即用
+## 开箱即用
 
 打开部署目录下的配置文件，根据自身需求开启插件，无需去配置额外的插件及属性，也不需要在项目中删删改改，`true` 与 `false` 让你轻松搞定[前往文件](./deploy/config.ts)
 
@@ -287,4 +305,17 @@ npm run serve
 
 # or 生产
 npm run build
+
+
+## 如果编译出现报错，比如看起来像这样
+
+#
+# Fatal error in , line 0
+# Check failed: U_SUCCESS(status).
+#
+#
+#
+#FailureMessage Object: 00000045E791C0E0 ERROR  Command failed with exit code 3221225477.
+
+## 请升级你的 NodeJs
 ```
