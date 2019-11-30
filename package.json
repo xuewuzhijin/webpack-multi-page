@@ -1,16 +1,16 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
-  "main": "./views/home/index.ts",
+  "name": "webpack-multi-page",
+  "version": "1.1.0",
+  "main": "index.ts",
   "scripts": {
     "serve": "webpack-dev-server --env.development",
     "build": "rimraf dist && webpack --env.production",
     "checkType": "tsc --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "bill",
   "license": "ISC",
-  "description": "",
+  "description": "http://github.com/xuewuzhijin",
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
