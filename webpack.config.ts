@@ -6,10 +6,8 @@ import webpack, { Configuration } from "webpack"
 import Happypack from "happypack"
 /** 用来合并 webpack 配置文件 */
 import WebpackMerge from "webpack-merge"
-/** 返回所需的入口文件 */
-import Entrys from "./deploy/_util";
-/** 返回使用的插件库 */
-import WebpackPlugin from "./deploy/_util/use-plugins";
+/** 工具库，引入相关配置文件和入口处理函数 */
+import { Entrys, UsePlugins } from "./deploy/_util";
 
 /** 配置多入口 */
 let entrys: webpack.Entry = {};
@@ -27,7 +25,7 @@ const webpackConfig: Configuration = {
   module: {
     rules: [
       {
-        test: /.[jt]s$/,
+        test: /.[jt]sx?$/,
         /** 使用多线程打包，ID 指向 ts */
         loader: "happypack/loader?id=ts",
         exclude: /node_modules/,
@@ -63,7 +61,7 @@ const webpackConfig: Configuration = {
   resolve: {
 
     /** 省略引入文件的后缀名 */
-    extensions: [ ".js", ".ts", ".vue", ".html", "*" ],
+    extensions: [ ".js", ".ts", ".html", "*" ],
 
     /** 定义项目全局模块别名： 该目录要对应 tsconfig 配置文件，也可以不配置，但编译项目会报错，同时也是为了编辑器能够认识 */
     alias: {
@@ -131,7 +129,7 @@ interface WebpackModuleMode {
 module.exports = ( mode: WebpackModuleMode ) => {
   // 返回合并后的 webpack 配置文件
   return WebpackMerge(
-    WebpackPlugin,
+    UsePlugins,
     webpackConfig,
     mode.production ? require("./webpack.config.prod") : require("./webpack.config.dev")
   )

@@ -1,6 +1,8 @@
+import fs from "fs";
 import Glob from "glob";
 import Config from "../config";
-import fs from "fs";
+import { Configuration } from "webpack"
+import WebpackMerge from "webpack-merge";
 
 /** 返回的入口文件数组
  * @param { Function } cb 回调函数
@@ -22,6 +24,17 @@ const entrys = ( cb: (path: string, name: string, templatePath: string) => void 
   })
 }
 
-export default entrys
 
-export { entrys }
+type PluginKey = keyof typeof Config.plugin;
+/** 返回使用的插件列表 */
+let webpack: Configuration = {};
+for (const key in Config.plugin) {
+  Config.plugin[(key as PluginKey)] && (webpack = WebpackMerge(webpack, require(`./plugins/${key}`)));
+}
+
+
+export default entrys
+export {
+  entrys as Entrys,
+  webpack as UsePlugins
+}

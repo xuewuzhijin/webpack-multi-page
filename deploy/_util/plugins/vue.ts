@@ -2,6 +2,13 @@ import { Configuration } from "webpack";
 import { VueLoaderPlugin } from "vue-loader";
 
 module.exports = {
+  resolve: {
+
+    /** 省略引入文件的后缀名 */
+    extensions: [ ".vue" ],
+    
+  },
+
   module: {
     rules: [
       {
@@ -11,6 +18,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        enforce: "pre",
         oneOf: [
           // 这里匹配 `<style module>`
           {
