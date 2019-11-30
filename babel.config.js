@@ -1,4 +1,4 @@
-import Config from "./deploy/config";
+const Config = require("./deploy/config.js");
 
 const babel = {
 	"presets": [
