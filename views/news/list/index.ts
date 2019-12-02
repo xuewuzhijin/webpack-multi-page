@@ -1,1 +1,3 @@
-console.log("This Is List ts");
+import Utils from "@utils/index";
+
+Utils.say("this is list ts");

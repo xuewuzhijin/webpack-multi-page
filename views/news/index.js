@@ -1,2 +1,4 @@
 import "@styles/common.styl";
-console.log("This is index js");
+import Utils from "@utils/index";
+
+Utils.say("this is news js");
