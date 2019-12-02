@@ -1,11 +1,11 @@
 {
   "name": "webpack-multi-page",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.ts",
   "scripts": {
     "serve": "webpack-dev-server --env.development",
     "build": "rimraf dist && webpack --env.production",
-    "checkType": "tsc --watch"
+    "checkType": "rimraf deploy/.checkType && tsc --watch"
   },
   "keywords": [],
   "author": "bill",
@@ -19,6 +19,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.7.4",
     "@babel/plugin-transform-arrow-functions": "^7.7.4",
     "@babel/plugin-transform-runtime": "^7.7.4",
+    "@babel/plugin-transform-typescript": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
     "@types/compression-webpack-plugin": "^2.0.1",
@@ -29,7 +30,7 @@
     "@types/node": "^12.12.14",
     "@types/webpack": "^4.41.0",
     "@types/webpack-merge": "^4.1.5",
-    "autoprefixer": "^9.7.2",
+    "autoprefixer": "^9.7.3",
     "babel-loader": "^8.0.6",
     "compression-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.5",
