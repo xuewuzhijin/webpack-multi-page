@@ -28,8 +28,7 @@ const webpackConfig: Configuration = {
         test: /.[jt]sx?$/,
         /** 使用多线程打包，ID 指向 ts */
         loader: "happypack/loader?id=ts",
-        exclude: /node_modules/,
-        include: /views/
+        exclude: /node_modules/
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
@@ -37,6 +36,7 @@ const webpackConfig: Configuration = {
           {
             loader: "url-loader",
             options: {
+              name: "[name]-[hash:4].[ext]",
               outputPath: "assets/fonts"
             }
           }
@@ -48,6 +48,7 @@ const webpackConfig: Configuration = {
           {
             loader: "url-loader",
             options: {
+              name: "[name]-[hash:4].[ext]",
               // 限制图片大小，超过 5kb 引用图片，否则转 base64
               limit: 5120,
               outputPath: "assets/images"
@@ -61,7 +62,7 @@ const webpackConfig: Configuration = {
   resolve: {
 
     /** 省略引入文件的后缀名 */
-    extensions: [ ".js", ".ts", ".html", "*" ],
+    extensions: [ ".ts", ".js", ".html", "*" ],
 
     /** 定义项目全局模块别名： 该目录要对应 tsconfig 配置文件，也可以不配置，但编译项目会报错，同时也是为了编辑器能够认识 */
     alias: {
