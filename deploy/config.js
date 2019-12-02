@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   /** 入口配置文件 */
   entry: {
     /** 忽略前缀文件夹不作为入口文件 */
@@ -7,6 +7,7 @@ export default {
     name: [ "index", "entry" ]
   },
 
+  /** 找不到对应的入口 js/ts 文件名字的 html 文件时，自动使用该模板文件 */
   templatePath: "./deploy/template/index.html",
 
   /** 是否开启该插件 */
@@ -28,10 +29,10 @@ export default {
     // npm i -D eslint eslint-loader
     eslint: false,
 
+    // npm i -D @babel/preset-react fork-ts-checker-webpack-plugin
     // !!!如果需要热更新，请看这里（第二第三点）如何启用热更新
     // https://github.com/gaearon/react-hot-loader#getting-started
     // npm i react-hot-loader/babel
-    // npm i -D @babel/preset-react fork-ts-checker-webpack-plugin
     react: false,
   }
 }
