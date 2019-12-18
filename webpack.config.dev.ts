@@ -1,14 +1,16 @@
-import path from "path"
-import webpack, { Configuration } from "webpack"
-import HtmlWebpackPlugin from "html-webpack-plugin"
+import path from "path";
+import webpack, { Configuration } from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 /* 返回所需的入口文件 */
 import Entrys from "./deploy/_util";
+import Config from "./deploy/config";
 
 // 配置多入口插件
 const plugins: webpack.Plugin[] = [];
 Entrys( (path, name, templatePath) => {
   plugins.push(new HtmlWebpackPlugin({
       filename: name,
+      cdnConf: Config.cdn,
       template: templatePath,
       inject: true,
       chunks: [ path ]

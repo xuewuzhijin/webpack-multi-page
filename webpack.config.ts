@@ -1,11 +1,11 @@
 /** node 环境下用来解决路径问题 */
-import path from "path"
+import path from "path";
 /** 引用 webpack，会用到 webpack 的一些内置插件，后面一个是 类型接口 */
-import webpack, { Configuration } from "webpack"
+import webpack, { Configuration } from "webpack";
 /** 用来启用多线程打包 */
-import Happypack from "happypack"
+import Happypack from "happypack";
 /** 用来合并 webpack 配置文件 */
-import WebpackMerge from "webpack-merge"
+import WebpackMerge from "webpack-merge";
 /** 工具库，引入相关配置文件和入口处理函数 */
 import { Entrys, UsePlugins } from "./deploy/_util";
 
@@ -25,7 +25,7 @@ const webpackConfig: Configuration = {
   module: {
     rules: [
       {
-        test: /.[jt]sx?$/,
+        test: /\.[jt]sx?$/,
         /** 使用多线程打包，ID 指向 ts */
         loader: "happypack/loader?id=ts",
         exclude: /node_modules/
@@ -55,6 +55,17 @@ const webpackConfig: Configuration = {
             }
           }
         ]
+      },
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+        options: {
+          interpolate: true
+        }
+      },
+      {
+        test: /\.ejs$/,
+        loader: "ejs-loader"
       }
     ]
   },
@@ -73,6 +84,7 @@ const webpackConfig: Configuration = {
       "@config": path.resolve( __dirname, "public/config" ),
       "@styles": path.resolve( __dirname, "public/styles" ),
       "@assets": path.resolve( __dirname, "public/assets" ),
+      "@template": path.resolve( __dirname, "public/template" ),
     }
     
   },

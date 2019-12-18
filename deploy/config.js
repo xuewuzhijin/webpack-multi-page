@@ -2,13 +2,13 @@ module.exports = {
   /** 入口配置文件 */
   entry: {
     /** 忽略前缀文件夹不作为入口文件 */
-    ignorePrefix: [ "~", "-", "_" ],
+    ignorePrefix: ["~", "-", "_"],
     /** 哪些文件名称作为入口 */
-    name: [ "index", "entry" ]
+    name: ["index", "entry"]
   },
 
   /** 找不到对应的入口 js/ts 文件名字的 html 文件时，自动使用该模板文件 */
-  templatePath: "./deploy/template/index.html",
+  templatePath: "./public/template/default.html",
 
   /** 是否开启该插件 */
   plugin: {
@@ -34,5 +34,30 @@ module.exports = {
     // https://github.com/gaearon/react-hot-loader#getting-started
     // npm i react-hot-loader/babel
     react: false,
+  },
+
+  /**
+   * CDN配置
+   * css / js 全局公共配置
+   * (名字自定义)home["css" / "js"] 指定页面
+   */
+  cdn: {
+    css: [
+      "http://unpkg.com/view-design/dist/styles/iview.css"
+    ],
+    js: [
+      "https://cdn.bootcss.com/vue/2.6.10/vue.runtime.min.js",
+      "https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js",
+      "http://unpkg.com/view-design/dist/iview.min.js"
+    ],
+
+    home: {
+      css: [
+        "https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+      ],
+      js: [
+        "https://unpkg.com/element-ui/lib/index.js"
+      ]
+    }
   }
 }

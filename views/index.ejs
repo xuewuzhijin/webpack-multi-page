@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 涉及到使用 htmlWebpackPlugin.options 配置属性后面需传递参数 -->
+  <%= require("@template/head.ejs")({htmlWebpackPlugin}) %>
+  <title>entry</title>
+
+</head>
+<body>
+
+  <!-- 如果没有涉及到使用 htmlWebpackPlugin.options 配置属性可以这样引用 -->
+  <%= require("@template/header.html") %>
+
+  <h1>This is entry page</h1>
+  <a href="./news/index.html">去 News 页面</a><br>
+  <a href="./about/index.html">去 About 页面</a><br>
+  <a href="./contact/index.html">去 Contact 页面</a><br>
+
+  <!-- 或者这样 -->
+  ${require("@template/footer.html")}
+</body>
+</html>

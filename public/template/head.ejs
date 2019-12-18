@@ -1,0 +1,11 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- 加入全局 CDN 配置，只需在每个页面引入该模板文件 -->
+<% htmlWebpackPlugin.options.cdnConf.css.forEach( item => { %>
+<link href="<%= item %>" rel="stylesheet" />
+<% }) %>
+<% htmlWebpackPlugin.options.cdnConf.js.forEach( item => { %>
+<script src="<%= item %>"></script>
+<% }) %>

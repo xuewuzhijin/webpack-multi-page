@@ -15,15 +15,18 @@ const entrys = ( cb: (path: string, name: string, templatePath: string) => void 
   let { entry: { name, ignorePrefix } } = Config,
       newName = name.join("|");
 
-  Glob.sync(`{./views/@(${newName}).[jt]s,./views/**/!(${ignorePrefix.join("|")})*/@(${newName}).[jt]s}`)
+  Glob
+  .sync(`{./views/@(${newName}).[jt]s,./views/**/!(${ignorePrefix.join("|")})*/@(${newName}).[jt]s}`)
   .forEach( path => {
 
-  let name = path.replace(new RegExp(`(./views/)|(\.[jt]s)`, "g"), ""),
-      temp = path.replace(/[jt]s$/, "html"),
-      // 判断文件是否存在，如果不存在则使用默认的模版文件
-      exist= fs.existsSync( temp );
-      
-  cb( path, name + ".html", exist ? temp : Config.templatePath )
+    let name = path.replace(new RegExp(`(./views/)|(\.[jt]s)`, "g"), ""),
+        html = path.replace(/[jt]s$/, "html"),
+        ejs = path.replace(/[jt]s$/, "ejs"),
+        // 判断文件是否存在，如果不存在则使用默认的模版文件
+        htmlExist= fs.existsSync( html ),
+        ejsExist= !htmlExist && fs.existsSync( ejs );
+        
+    cb( path, name + ".html", htmlExist ? html : ejsExist ? ejs : Config.templatePath )
 
   })
 }
